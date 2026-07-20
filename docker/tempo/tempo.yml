@@ -11,6 +11,10 @@ distributor:
 ingester:
   max_block_duration: 5m
 
+compactor:
+  compaction:
+    block_retention: 1h
+
 # Local single-binary storage. /tmp is writable by the image's non-root user.
 storage:
   trace:

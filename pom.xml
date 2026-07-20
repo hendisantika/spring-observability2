@@ -16,7 +16,6 @@
     <properties>
         <java.version>25</java.version>
         <opentelemetry-instrumentation.version>2.25.0-alpha</opentelemetry-instrumentation.version>
-        <opentelemetry-semconv.version>1.41.1</opentelemetry-semconv.version>
     </properties>
     <dependencies>
         <dependency>
@@ -36,33 +35,21 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-restclient</artifactId>
         </dependency>
-        <!-- OpenTelemetry core artifacts are version-managed by the Spring Boot BOM -->
+        <!-- OpenTelemetry SDK + OTLP log export autoconfiguration -->
         <dependency>
-            <groupId>io.opentelemetry</groupId>
-            <artifactId>opentelemetry-api</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-opentelemetry</artifactId>
         </dependency>
+        <!-- Micrometer tracing bridged onto OTel; supplies SdkTracerProvider + OTLP trace export -->
         <dependency>
-            <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-tracing-bridge-otel</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-micrometer-tracing-opentelemetry</artifactId>
         </dependency>
-        <dependency>
-            <groupId>io.opentelemetry</groupId>
-            <artifactId>opentelemetry-sdk</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.opentelemetry</groupId>
-            <artifactId>opentelemetry-exporter-otlp</artifactId>
-        </dependency>
-        <!-- Not covered by the Boot BOM, so pinned explicitly -->
+        <!-- Logback -> OTel log bridge. Not covered by the Boot BOM, so pinned explicitly. -->
         <dependency>
             <groupId>io.opentelemetry.instrumentation</groupId>
             <artifactId>opentelemetry-logback-appender-1.0</artifactId>
             <version>${opentelemetry-instrumentation.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.opentelemetry.semconv</groupId>
-            <artifactId>opentelemetry-semconv</artifactId>
-            <version>${opentelemetry-semconv.version}</version>
         </dependency>
 
         <dependency>

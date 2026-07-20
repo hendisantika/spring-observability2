@@ -1,11 +1,16 @@
 spring:
   application:
     name: spring-observability2
+
 management:
   endpoints:
     web:
       exposure:
         include: health,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+  # All three signals go to the collector's OTLP/HTTP receiver on 4318.
   otlp:
     metrics:
       export:
@@ -13,8 +18,8 @@ management:
         step: 10s
     tracing:
       endpoint: http://localhost:4318/v1/traces
-      export:
-        step: 10s # Export interval set to 10 seconds
+    logging:
+      endpoint: http://localhost:4318/v1/logs
   tracing:
     sampling:
       probability: 1.0
