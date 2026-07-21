@@ -15,7 +15,7 @@
     <description>spring-observability2</description>
     <properties>
         <java.version>25</java.version>
-        <opentelemetry-instrumentation.version>2.25.0-alpha</opentelemetry-instrumentation.version>
+        <opentelemetry-instrumentation.version>2.29.0-alpha</opentelemetry-instrumentation.version>
     </properties>
     <dependencies>
         <dependency>
