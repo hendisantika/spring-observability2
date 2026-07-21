@@ -1,0 +1,38 @@
+apiVersion: 1
+
+datasources:
+  - name: Prometheus
+    type: prometheus
+    uid: prometheus
+    access: proxy
+    url: http://prometheus:9090
+    isDefault: true
+
+  - name: Tempo
+    type: tempo
+    uid: tempo
+    access: proxy
+    url: http://tempo:3200
+    jsonData:
+      # Jump from a span to the logs emitted during it.
+      tracesToLogsV2:
+        datasourceUid: loki
+        spanStartTimeShift: -1h
+        spanEndTimeShift: 1h
+        filterByTraceID: true
+        tags:
+          - key: service.name
+            value: service_name
+
+  - name: Loki
+    type: loki
+    uid: loki
+    access: proxy
+    url: http://loki:3100
+    jsonData:
+      # Log bodies are JSON containing "traceid":"<id>"; turn that into a Tempo link.
+      derivedFields:
+        - name: TraceID
+          matcherRegex: '"traceid":"([a-f0-9]+)"'
+          url: '${__value.raw}'
+          datasourceUid: tempo

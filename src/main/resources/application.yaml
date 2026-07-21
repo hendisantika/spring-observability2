@@ -1,12 +1,21 @@
 spring:
   application:
     name: spring-observability2
+  docker:
+    compose:
+      # Start the stack but leave it running when the app stops. Tearing it down
+      # on every shutdown races the next start: the app comes back up while the
+      # containers are still stopping and fails with "No host port mapping found
+      # for container port 4318". Use `docker compose down` to stop it.
+      lifecycle-management: start-only
 
 management:
   endpoints:
     web:
       exposure:
-        include: health,metrics,prometheus
+        # No prometheus endpoint here: metrics reach Prometheus through the
+        # OTLP collector, not by being scraped off the app.
+        include: health,metrics
   endpoint:
     health:
       show-details: always

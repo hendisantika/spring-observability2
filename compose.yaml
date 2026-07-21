@@ -44,5 +44,12 @@ services:
   grafana:
     container_name: grafana
     image: grafana/grafana:12.3.0
+    volumes:
+      - ./docker/grafana/provisioning:/etc/grafana/provisioning
+    environment:
+      # Local dev stack only: skip the login screen.
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_DISABLE_LOGIN_FORM=true
     ports:
       - "3000:3000"
