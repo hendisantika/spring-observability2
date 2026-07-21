@@ -7,6 +7,14 @@ updates:
       time: '04:00'
       timezone: Asia/Jakarta
     open-pull-requests-limit: 10
+    ignore:
+      # The Logback appender must stay in step with the OpenTelemetry SDK that the
+      # Spring Boot BOM manages (currently 1.62.0). 2.29.0-alpha pulls
+      # opentelemetry-api-incubator up to 1.63.0-alpha, which dropped
+      # ExtendedAttributeKey while opentelemetry-sdk-logs 1.62.0 still calls it,
+      # breaking the build (PR #4). Revisit when Boot ships a newer OTel SDK.
+      - dependency-name: "io.opentelemetry.instrumentation:opentelemetry-logback-appender-1.0"
+        versions: [ ">2.25.0-alpha" ]
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:

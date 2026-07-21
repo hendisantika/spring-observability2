@@ -15,7 +15,13 @@
     <description>spring-observability2</description>
     <properties>
         <java.version>25</java.version>
-        <opentelemetry-instrumentation.version>2.29.0-alpha</opentelemetry-instrumentation.version>
+        <!--
+          Do not bump past 2.25.0-alpha without checking opentelemetry-api-incubator.
+          2.29.0-alpha pulls api-incubator up to 1.63.0-alpha, which dropped
+          ExtendedAttributeKey; Boot's opentelemetry-sdk-logs 1.62.0 still calls it, so
+          installing the Logback appender dies with NoClassDefFoundError at startup.
+        -->
+        <opentelemetry-instrumentation.version>2.25.0-alpha</opentelemetry-instrumentation.version>
     </properties>
     <dependencies>
         <dependency>
